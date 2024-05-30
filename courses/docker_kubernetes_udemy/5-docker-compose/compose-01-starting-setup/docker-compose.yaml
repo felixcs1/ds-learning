@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  mongodb:
+    container_name: mongodb
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: felix
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+    env_file:
+      - ./env/mongo.env
+    # networks: - automatically added to default network
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+        - "backend-image"
+      # args:
+      #   some_arg: some_value
+    ports:
+      - '80:80'
+    volumes:
+      - ./logs:/app/logs 
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    # does -it
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+# Just named volumes not annon volumes and bind mounts
+volumes:
+  data:

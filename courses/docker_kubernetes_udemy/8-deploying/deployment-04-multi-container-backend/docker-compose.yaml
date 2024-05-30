@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: mongodb
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    env_file:
+      - ./env/mongo.env
+  backend:
+    container_name: goals-app
+    build: ./backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+
+volumes:
+  data:
+
+
+# docker network create goals-net
+# docker run -d --rm --network goals-net -e MONGO_INITDB_ROOT_USERNAME=felix -e MONGO_INITDB_ROOT_PASSWORD=secret --name mongodb mongo
+# docker run --rm -p 3000:3000  --network goals-net -v $(pwd):/app -v /app/node_modules -e MONGODB_USERNAME=felix -e MONGODB_PASSWORD=secret -e MONGODB_URL=mongodb --name goals-app felixsteph/goals-node

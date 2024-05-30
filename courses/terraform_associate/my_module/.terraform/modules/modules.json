@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"aws_server","Source":"./terraform-aws-ec2-example-module","Dir":"terraform-aws-ec2-example-module"}]}

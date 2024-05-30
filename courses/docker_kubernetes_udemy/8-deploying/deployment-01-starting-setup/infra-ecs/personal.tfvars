@@ -1,0 +1,10 @@
+app_name       = "my-ecs-deploy"
+service_name   = "first-ecs-deploy-service"
+cluster_name   = "first-ecs-deploy-cluster"
+container_name = "first-ecs-deploy-container"
+image_name     = "felixsteph/node-hello-world" 
+image_tag      = "latest"
+vpc_id         = "vpc-9a7f5ef2" # personal default vpv id
+aws_region     = "eu-west-2"
+task_cpu       = 256
+task_memory    = 512
